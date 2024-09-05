@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Sorpresa para Ti</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('hola.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1, p, .button-container button {
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            animation-delay: 0.5s; /* Delay for the title */
+        }
+
+        p {
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            animation-delay: 1s; /* Delay for the subtitle */
+        }
+
+        .button-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .button-container button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: #DAA520; /* Dorado brillante */
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            animation-delay: 1.5s; /* Delay for the button */
+        }
+
+        .button-container button:hover {
+            background-color: #FFD700; /* Dorado más brillante al hacer hover */
+            transform: translateY(-2px);
+        }
+
+        /* Confetti CSS */
+        @keyframes confetti {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 20px;
+            top: 0;
+            background-color: #DAA520; /* Dorado brillante */
+            opacity: 0;
+            animation: confetti 2s linear infinite;
+        }
+
+        .confetti.gray {
+            background-color: #808080; /* Gris */
+        }
+
+        .confetti.dark {
+            background-color: #333333; /* Negro oscuro */
+        }
+
+        /* Box and dialog CSS */
+        .box {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            height: auto;
+            background: #333; /* Fondo oscuro */
+            border: 2px solid #FFD700; /* Borde dorado */
+            border-radius: 20px;
+            overflow: hidden;
+            transform: scale(0);
+            transition: transform 0.5s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .dialog {
+            position: relative;
+            width: 100%;
+            background: #444; /* Fondo oscuro más claro */
+            color: #FFD700; /* Texto en dorado */
+            padding: 20px;
+            box-sizing: border-box;
+            transform: translateY(100%);
+            transition: transform 0.5s;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .box.open .dialog {
+            transform: translateY(0);
+        }
+
+        /* Footer CSS */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 1em;
+            color: #fff;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1.2em;
+            }
+            .button-container button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .dialog {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>¿Lista para una sorpresa?</h1>
+    <p>Presiona el botón para descubrirlo.</p>
+    <div class="button-container">
+        <button onclick="showSurprise()">Sorpresa</button>
+    </div>
+    <div class="box" id="box">
+        <div class="dialog">
+            <h1>MAJO MAJO</h1>
+            <p>Toda' la guachas hasta abajo
+                Que retumbe el bajo
+                Pa' los chachetes los charchazo'
+                Del pantano bajo, el pantalon se bajo
+                Mmm 'tay majo majo</p>
+        </div>
+    </div>
+    <div class="footer">
+        MADE BY ROFFO &copy;
+    </div>
+
+    <script>
+        function createConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.classList.add('confetti-container');
+            document.body.appendChild(confettiContainer);
+
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Randomly assign the color class for confetti
+                const colors = ['confetti', 'confetti gray', 'confetti dark'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.className = randomColor;
+
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                confettiContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 3000);
+        }
+
+        function showSurprise() {
+            createConfetti();
+            const box = document.getElementById('box');
+            box.style.transform = 'scale(1)';
+            setTimeout(() => {
+                box.classList.add('open');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
